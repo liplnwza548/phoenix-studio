@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://phoenix.studio/schemas/asset.schema.json",
+  "title": "Phoenix Studio Asset",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["asset_id", "kind", "uri", "source", "source_type", "verified", "captured_at", "truth_level"],
+  "properties": {
+    "asset_id": { "type": "string", "minLength": 1 },
+    "kind": { "enum": ["image", "video", "audio", "font", "svg"] },
+    "uri": { "type": "string", "minLength": 1 },
+    "source": { "type": "string", "minLength": 1 },
+    "source_type": { "enum": ["upload", "capture", "generated", "url", "derived"] },
+    "verified": { "type": "boolean" },
+    "captured_at": { "type": ["string", "null"], "minLength": 1 },
+    "truth_level": { "enum": ["USER_PROVIDED", "VERIFIED_PRODUCT", "PUBLIC_REFERENCE", "AI_GENERATED", "FICTIONAL"] },
+    "label": { "type": "string" },
+    "notes": { "type": "string" },
+    "width_px": { "type": "integer", "minimum": 1 },
+    "height_px": { "type": "integer", "minimum": 1 },
+    "duration_ms": { "type": "integer", "minimum": 0 }
+  }
+}

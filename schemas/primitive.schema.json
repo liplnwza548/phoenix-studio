@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://phoenix.studio/schemas/primitive.schema.json",
+  "title": "Phoenix Studio Motion Primitive",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["type", "start_ms", "duration_ms", "easing"],
+  "properties": {
+    "type": { "enum": ["crop_9_16", "cut", "fade", "zoom_to_region", "pan_to_region", "highlight_box", "spotlight_dim", "cursor_move", "cursor_click", "kinetic_text", "hold"] },
+    "start_ms": { "type": "integer", "minimum": 0 },
+    "duration_ms": { "type": "integer", "minimum": 0 },
+    "easing": { "enum": ["linear", "ease_in", "ease_out", "ease_in_out"] },
+    "target": { "$ref": "#/$defs/region" },
+    "params": { "type": "object", "additionalProperties": true }
+  },
+  "$defs": {
+    "region": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "w", "h"],
+      "properties": {
+        "x": { "type": "number", "minimum": 0, "maximum": 1 },
+        "y": { "type": "number", "minimum": 0, "maximum": 1 },
+        "w": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+        "h": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 }
+      }
+    }
+  }
+}
