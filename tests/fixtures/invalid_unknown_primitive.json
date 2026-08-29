@@ -1,0 +1,46 @@
+{
+  "project_id": "ex-minimal",
+  "schema_version": "0.1",
+  "title": "Minimal still",
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "duration_ms": 15000,
+  "assets": [
+    {
+      "asset_id": "ui-home",
+      "kind": "image",
+      "uri": "asset://examples/ui-home.png",
+      "source": "user",
+      "source_type": "upload",
+      "verified": true,
+      "captured_at": "2026-08-29T15:00:00+07:00",
+      "truth_level": "USER_PROVIDED",
+      "label": "Product home screenshot"
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": "s1",
+      "start_ms": 0,
+      "duration_ms": 15000,
+      "label": "hold product screen",
+      "layers": [
+        {
+          "layer_id": "l-ui",
+          "asset_id": "ui-home",
+          "z_index": 0,
+          "band": "TRUTH",
+          "visibility": { "from_ms": 0 },
+          "transform": { "x": 0.0, "y": 0.0, "w": 1.0, "h": 1.0, "opacity": 1.0 },
+          "primitives": [
+            { "type": "zoompan", "start_ms": 0, "duration_ms": 15000, "easing": "linear" }
+          ]
+        }
+      ],
+      "cues": []
+    }
+  ],
+  "audio": { "mode": "MUSIC_SFX", "tracks": [] },
+  "output": { "container": "mp4", "video_codec": "h264", "audio_codec": "aac" }
+}
