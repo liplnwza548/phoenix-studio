@@ -45,6 +45,7 @@ class FixtureTests(unittest.TestCase):
         self.assertTrue(any("project_id" in e["message"] for e in result["errors"]))
 
     def test_invalid_negative_duration_caught(self):
+        # Phase 0 schema already rejects duration_ms < 1, so SCHEMA fires first.
         result = validate_path(FIXTURES / "invalid_negative_duration.json")
         self.assertFalse(result["valid"])
         layers = {e["layer"] for e in result["errors"]}
@@ -103,6 +104,7 @@ class OverlapAndDeterminismTests(unittest.TestCase):
 
     def test_error_order_is_deterministic(self):
         project = load("invalid_truth_band_mismatch.json")
+        # Force a second independent error: missing asset on another layer.
         project["scenes"][0]["layers"][0]["asset_id"] = "ghost"
         first = validate_project(project)
         second = validate_project(copy.deepcopy(project))
