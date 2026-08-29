@@ -44,6 +44,9 @@ def render(project_path: Path | str, output_path: Path | str) -> Path:
     cuts = _change_times(project, duration_ms, fps)
     tmp = Path(tempfile.mkdtemp(prefix="pstudio_"))
     try:
+        # One PNG per output frame, keyed by compositor time
+        # t = frame_index * 1000 // fps
+        # Concat-demuxer durations drift by ~1 frame around cuts.
         baked = {}
         for i in range(frames):
             t = ms_for_frame(i, fps)
