@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://phoenix.studio/schemas/project.schema.json",
+  "title": "Phoenix Studio Project",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["project_id", "schema_version", "width", "height", "fps", "duration_ms", "assets", "scenes", "audio", "output"],
+  "properties": {
+    "project_id": { "type": "string", "minLength": 1 },
+    "schema_version": { "const": "0.1" },
+    "width": { "type": "integer", "minimum": 1 },
+    "height": { "type": "integer", "minimum": 1 },
+    "fps": { "type": "integer", "minimum": 1 },
+    "duration_ms": { "type": "integer", "minimum": 1 },
+    "title": { "type": "string" },
+    "assets": { "type": "array", "minItems": 1, "items": { "$ref": "asset.schema.json" } },
+    "scenes": { "type": "array", "minItems": 1, "items": { "$ref": "timeline.schema.json#/$defs/scene" } },
+    "audio": { "$ref": "#/$defs/audio" },
+    "output": { "$ref": "#/$defs/output" }
+  },
+  "$defs": {
+    "audio_track": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["track_id", "asset_id", "role", "start_ms"],
+      "properties": {
+        "track_id": { "type": "string", "minLength": 1 },
+        "asset_id": { "type": "string", "minLength": 1 },
+        "role": { "enum": ["voice", "music", "sfx"] },
+        "start_ms": { "type": "integer", "minimum": 0 },
+        "source_start_ms": { "type": "integer", "minimum": 0 },
+        "source_end_ms": { "type": ["integer", "null"], "minimum": 0 },
+        "exclusive_track": { "type": "string", "minLength": 1 }
+      }
+    },
+    "audio": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "tracks"],
+      "properties": {
+        "mode": { "enum": ["USER_VOICE", "MUSIC_SFX", "AI_VOICE"] },
+        "tracks": { "type": "array", "items": { "$ref": "#/$defs/audio_track" } }
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["container"],
+      "properties": {
+        "container": { "enum": ["mp4"] },
+        "video_codec": { "enum": ["h264"] },
+        "audio_codec": { "enum": ["aac"] }
+      }
+    }
+  }
+}

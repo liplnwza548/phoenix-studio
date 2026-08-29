@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://phoenix.studio/schemas/timeline.schema.json",
+  "title": "Phoenix Studio Timeline",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["scenes"],
+  "properties": {
+    "scenes": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/scene" } }
+  },
+  "$defs": {
+    "region": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "w", "h"],
+      "properties": {
+        "x": { "type": "number", "minimum": 0, "maximum": 1 },
+        "y": { "type": "number", "minimum": 0, "maximum": 1 },
+        "w": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+        "h": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 }
+      }
+    },
+    "transform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "w", "h"],
+      "properties": {
+        "x": { "type": "number", "minimum": 0, "maximum": 1 },
+        "y": { "type": "number", "minimum": 0, "maximum": 1 },
+        "w": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+        "h": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+        "rotation_deg": { "type": "number" },
+        "opacity": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "visibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "from_ms": { "type": "integer", "minimum": 0 },
+        "to_ms": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "cue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cue_id", "start_ms", "duration_ms", "text"],
+      "properties": {
+        "cue_id": { "type": "string", "minLength": 1 },
+        "start_ms": { "type": "integer", "minimum": 0 },
+        "duration_ms": { "type": "integer", "minimum": 1 },
+        "text": { "type": "string", "minLength": 1 },
+        "emphasis": { "type": "string" }
+      }
+    },
+    "primitive": { "$ref": "primitive.schema.json" },
+    "layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["layer_id", "asset_id", "z_index", "visibility", "transform", "primitives", "band"],
+      "properties": {
+        "layer_id": { "type": "string", "minLength": 1 },
+        "asset_id": { "type": "string", "minLength": 1 },
+        "z_index": { "type": "integer" },
+        "visibility": { "$ref": "#/$defs/visibility" },
+        "transform": { "$ref": "#/$defs/transform" },
+        "primitives": { "type": "array", "items": { "$ref": "primitive.schema.json" } },
+        "band": { "enum": ["TRUTH", "ATMOSPHERE"] },
+        "exclusive_track": { "type": "string", "minLength": 1 },
+        "label": { "type": "string" }
+      }
+    },
+    "scene": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scene_id", "start_ms", "duration_ms", "layers", "cues"],
+      "properties": {
+        "scene_id": { "type": "string", "minLength": 1 },
+        "start_ms": { "type": "integer", "minimum": 0 },
+        "duration_ms": { "type": "integer", "minimum": 1 },
+        "layers": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/layer" } },
+        "cues": { "type": "array", "items": { "$ref": "#/$defs/cue" } },
+        "label": { "type": "string" }
+      }
+    }
+  }
+}
